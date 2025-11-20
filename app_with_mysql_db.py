@@ -22,6 +22,17 @@ class User ( db . Model ):
     email = db . Column ( db . String (100) , unique = True )
     created_at = db . Column ( db . DateTime )
 
+    # Relationship (one user -> many tasks)
+    tasks = db.relationship("Task", backref="user", lazy=True)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "created_at": self.created_at.isoformat() if self.created_at else None
+        }
+
 # --------------------------
 # TASK MODEL
 # --------------------------
